@@ -26,12 +26,12 @@ test('admin can accept a pending check deposit', function () {
         'transactionable_type' => CheckDeposit::class,
         'description' => $checkDeposit->description,
         'bank_account_id' => $checkDeposit->bank_account_id,
-        'amount' => $checkDeposit->amount,
+        'amount' => $checkDeposit->getRawOriginal('amount'),
     ]);
 
     assertDatabaseHas('bank_accounts', [
         'id' => $checkDeposit->bank_account_id,
-        'balance' => $checkDeposit->amount,
+        'balance' => $checkDeposit->getRawOriginal('amount'),
     ]);
 });
 

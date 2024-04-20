@@ -41,6 +41,8 @@ class ToAccepted extends Transition
     private function updateBankAccountBalance(): void
     {
         $bankAccount = $this->checkDeposit->bankAccount();
-        $bankAccount->increment('balance', $this->checkDeposit->amount);
+        $bankAccount
+            ->lockForUpdate()
+            ->increment('balance', $this->checkDeposit->getRawOriginal('amount'));
     }
 }
