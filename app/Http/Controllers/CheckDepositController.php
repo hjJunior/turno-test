@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CheckDeposit\StoreCheckDepositRequest;
 use App\Http\Resources\CheckDepositResource;
 use App\Models\CheckDeposit;
+use App\States\CheckDepositStatus\Accepted;
+use App\States\CheckDepositStatus\Rejected;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CheckDepositController extends Controller
@@ -33,5 +35,23 @@ class CheckDepositController extends Controller
         $checkDeposit = auth()->user()->checkDeposits()->create($data);
 
         return new CheckDepositResource($checkDeposit);
+    }
+
+    public function accept(CheckDeposit $checkDeposit)
+    {
+        $this->authorize('accept', $checkDeposit);
+
+        $checkDeposit->state->transitionTo(Accepted::class);
+
+        return response()->noContent();
+    }
+
+    public function reject(CheckDeposit $checkDeposit)
+    {
+        $this->authorize('reject', $checkDeposit);
+
+        $checkDeposit->state->transitionTo(Rejected::class);
+
+        return response()->noContent();
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\BankAccount;
+use App\Models\Transaction;
 use App\Models\User;
 use App\States\CheckDepositStatus\Accepted;
 use App\States\CheckDepositStatus\Pending;
@@ -28,8 +29,9 @@ class CheckDepositFactory extends Factory
 
     public function accepted(): self
     {
-        // todo: needs to have a transaction
-        return $this->state(['state' => Accepted::class]);
+        return $this
+            ->state(['state' => Accepted::class])
+            ->has(Transaction::factory());
     }
 
     public function rejected(): self

@@ -7,6 +7,7 @@ use App\States\CheckDepositStatus\CheckDepositStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Spatie\ModelStates\HasStates;
 
 class CheckDeposit extends Model
@@ -29,6 +30,11 @@ class CheckDeposit extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function transaction(): MorphOne
+    {
+        return $this->morphOne(Transaction::class, 'transactionable');
     }
 
     public function scopeaccessibleByUser($query, User $user)
