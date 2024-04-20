@@ -8,8 +8,11 @@ use App\Models\User;
 use App\States\CheckDepositStatus\Pending;
 
 use function Pest\Laravel\actingAs;
+use function Pest\Laravel\freezeSecond;
 
 test('customer can list your transactions', function () {
+    freezeSecond();
+
     $bankAccount = BankAccount::factory()
         ->has(Transaction::factory())
         ->has(Transaction::factory()->expense())
@@ -23,12 +26,14 @@ test('customer can list your transactions', function () {
         ->assertOk()
         ->assertJsonCount(2, 'data')
         // first
+        ->assertJsonPath('data.0.created_at', now()->toISOString())
         ->assertJsonPath('data.0.transactionable.id', $checkDeposit->id)
         ->assertJsonPath('data.0.transactionable.state', Pending::class)
         ->assertJsonPath('data.0.transactionable.description', $checkDeposit->description)
         ->assertJsonPath('data.0.transactionable.amount', $checkDeposit->getRawOriginal('amount'))
         ->assertJsonPath('data.0.transactionable.picture', Storage::url($checkDeposit->picture))
         // second
+        ->assertJsonPath('data.1.created_at', now()->toISOString())
         ->assertJsonPath('data.1.transactionable.id', $expense->id)
         ->assertJsonPath('data.1.transactionable.description', $expense->description)
         ->assertJsonPath('data.1.transactionable.amount', $expense->getRawOriginal('amount'));

@@ -23,6 +23,7 @@ class TransactionResource extends JsonResource
                 Expense::class => ExpenseResource::class,
             ]),
             'transactionable_type' => $this->transactionable_type,
+            'created_at' => $this->created_at->toISOString(),
         ];
     }
 }
