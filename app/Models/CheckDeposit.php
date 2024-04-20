@@ -25,4 +25,18 @@ class CheckDeposit extends Model
     {
         return $this->belongsTo(BankAccount::class);
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function scopeaccessibleByUser($query, User $user)
+    {
+        if ($user->is_admin) {
+            return;
+        }
+
+        $query->whereBelongsTo($user);
+    }
 }

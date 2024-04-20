@@ -14,9 +14,10 @@ class CheckDepositResource extends JsonResource
             'id' => $this->id,
             'state' => $this->state,
             'description' => $this->description,
-            'amount' => $this->getRawOriginal('amount'),
+            'amount' => $this->resource->getRawOriginal('amount'),
             'picture' => Storage::url($this->picture),
             'bank_account' => new BankAccountResource($this->whenLoaded('bankAccount')),
+            'user' => new UserResource($this->whenLoaded('user')),
         ];
     }
 }

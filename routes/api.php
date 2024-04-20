@@ -18,5 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:api'])->group(function () {
     Route::get('/user', fn () => auth()->user());
     Route::apiResource('bank-accounts', BankAccountController::class)->only('store');
-    Route::apiResource('check-deposits', CheckDepositController::class)->only('store');
+    Route::apiResource('check-deposits', CheckDepositController::class)->only('index', 'store');
 });

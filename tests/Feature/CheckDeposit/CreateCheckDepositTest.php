@@ -36,6 +36,7 @@ test('a user can create a check deposit to its account', function () {
         'description' => "Grandma's gift",
         'amount' => 1050,
         'bank_account_id' => $bankAccountId,
+        'user_id' => $user->id,
     ]);
 
     assertDatabaseCount('check_deposits', 1);
@@ -55,6 +56,7 @@ test('a user can create a check deposit to another bank account', function () {
         'amount' => 10.50,
         'bank_account_id' => $bankAccountId,
         'picture' => $picture,
+        'user_id' => $user->id,
     ];
 
     actingAs($user)

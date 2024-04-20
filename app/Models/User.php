@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -31,5 +32,10 @@ class User extends Authenticatable
     public function bankAccount(): HasOne
     {
         return $this->hasOne(BankAccount::class);
+    }
+
+    public function checkDeposits(): HasMany
+    {
+        return $this->hasMany(CheckDeposit::class);
     }
 }
