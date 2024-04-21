@@ -1,11 +1,12 @@
 import useAuthState from "@/modules/auth/hooks/useAuthState";
 import AuthRoutes from "@/modules/auth/routes";
 import TransactionsRoute from "@/modules/transactions/routes";
+import UsersRoute from "@/modules/users/routes";
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: [...AuthRoutes, ...TransactionsRoute],
+  routes: [...AuthRoutes, ...TransactionsRoute, ...UsersRoute],
 });
 
 router.beforeEach(async (to, from) => {

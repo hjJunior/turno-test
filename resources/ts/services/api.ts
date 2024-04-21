@@ -27,13 +27,4 @@ api.interceptors.response.use((response) => {
   return response;
 });
 
-export const getResponseError = (error: any): string => {
-  if ("name" in error && error.name != "AxiosError") {
-    throw error;
-  }
-
-  const response = error.response.data;
-  return response.message ?? response.error;
-};
-
 export default api;

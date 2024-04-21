@@ -21,7 +21,8 @@
     "paths": {
       "@/*": ["./*"],
       "@auth/*": ["./modules/auth/*"],
-      "@transactions/*": ["./modules/transactions/*"]
+      "@transactions/*": ["./modules/transactions/*"],
+      "@users/*": ["./modules/users/*"]
     }
   }
 }

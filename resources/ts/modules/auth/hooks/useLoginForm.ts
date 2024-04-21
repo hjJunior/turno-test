@@ -1,9 +1,9 @@
-import { getResponseError } from "@/services/api";
 import useAuth from "./useAuth";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import * as zod from "zod";
 import { useRouter } from "vue-router";
+import { setFormErrors } from "@/services/forms";
 
 const formSchema = zod.object({
   email: zod
@@ -21,13 +21,13 @@ const useLoginForm = () => {
   const auth = useAuth();
   const router = useRouter();
 
-  const { isSubmitting, handleSubmit, setFieldError } = useForm({
+  const { isSubmitting, handleSubmit, setErrors } = useForm({
     validationSchema,
   });
 
   const login = async (form: LoginForm) => {
     await auth.login(form).catch((error: any) => {
-      setFieldError("password", getResponseError(error));
+      setFormErrors(error, setErrors, "password");
     });
 
     router.push({ name: "transactions.index" });

@@ -10,6 +10,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./resources/ts"),
       "@auth": path.resolve(__dirname, "./resources/ts/modules/auth"),
       "@transactions": path.resolve(__dirname, "./resources/ts/modules/transactions"),
+      "@users": path.resolve(__dirname, "./resources/ts/modules/users"),
     },
   },
   plugins: [

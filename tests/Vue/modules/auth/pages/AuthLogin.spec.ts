@@ -6,9 +6,13 @@ import AuthLogin from "@/modules/auth/pages/AuthLogin.vue";
 import useAuth from "@/modules/auth/hooks/useAuth";
 import { waitFor } from "@testing-library/dom";
 import { useRouter } from "vue-router";
+import router from "@/router";
 
 vi.mock("@/modules/auth/hooks/useAuth");
-vi.mock("vue-router");
+vi.mock("vue-router", async () => ({
+  ...(await vi.importActual("vue-router")),
+  useRouter: vi.fn(),
+}));
 
 const given = getGiven();
 
@@ -18,7 +22,10 @@ beforeEach(() => {
 });
 
 describe("AuthLogin", () => {
-  given("render", () => render(AuthLogin));
+  given("render", () => render(AuthLogin, { global: { plugins: [router] } }));
+  given("createAccountLink", () =>
+    screen.getByRole("link", { name: "Create account" })
+  );
   given("submitBtn", () => screen.getByRole("button", { name: "Login" }));
   given("emailInput", () => screen.getByRole("textbox", { name: "E-mail" }));
   given("passwordInput", () =>
@@ -30,6 +37,15 @@ describe("AuthLogin", () => {
       login: vi.fn().mockResolvedValue({}),
     });
     (useRouter as Mock).mockReturnValue({ push: vi.fn() });
+  });
+
+  it("has create account link", () => {
+    given.render;
+
+    expect(given.createAccountLink).toHaveProperty(
+      "href",
+      "http://localhost:3000/users/new"
+    );
   });
 
   it("can login in", async () => {
