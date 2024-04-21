@@ -5,7 +5,6 @@ use App\Models\User;
 use App\States\CheckDepositStatus\Pending;
 use Illuminate\Http\UploadedFile;
 
-use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\postJson;
@@ -24,7 +23,7 @@ test('a user can create a check deposit to its account', function () {
         'picture' => $picture,
     ];
 
-    actingAs($user)
+    actingAsApiUser($user)
         ->postJson(route('check-deposits.store'), $payload)
         ->assertCreated()
         ->assertJsonPath('data.state', Pending::class)
@@ -59,7 +58,7 @@ test('a user can create a check deposit to another bank account', function () {
         'user_id' => $user->id,
     ];
 
-    actingAs($user)
+    actingAsApiUser($user)
         ->postJson(route('check-deposits.store'), $payload)
         ->assertCreated()
         ->assertJsonPath('data.state', Pending::class)
@@ -92,7 +91,7 @@ test('validates payload', function () {
         'bank_account_id' => '10',
     ];
 
-    actingAs($user)
+    actingAsApiUser($user)
         ->postJson(route('check-deposits.store'), $payload)
         ->assertUnprocessable()
         ->assertJsonValidationErrors([

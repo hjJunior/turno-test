@@ -3,7 +3,6 @@
 use App\Models\BankAccount;
 use App\Models\User;
 
-use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\postJson;
@@ -11,7 +10,7 @@ use function Pest\Laravel\postJson;
 test('user can create bank account', function () {
     $user = User::factory()->create();
 
-    actingAs($user)
+    actingAsApiUser($user)
         ->postJson(route('bank-accounts.store'))
         ->assertCreated()
         ->assertJsonPath('data.balance', 0);
@@ -27,7 +26,7 @@ test('user can create bank account', function () {
 test('user cannot create bank account when have one', function () {
     $user = User::factory()->has(BankAccount::factory())->create();
 
-    actingAs($user)
+    actingAsApiUser($user)
         ->postJson(route('bank-accounts.store'))
         ->assertForbidden()
         ->assertJsonPath('message', 'You can have only one bank account');

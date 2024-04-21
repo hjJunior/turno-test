@@ -6,15 +6,13 @@ use App\States\CheckDepositStatus\Accepted;
 use App\States\CheckDepositStatus\Pending;
 use App\States\CheckDepositStatus\Rejected;
 
-use function Pest\Laravel\actingAs;
-
 test('customer can list your check deposits', function () {
     $user = User::factory()->has(CheckDeposit::factory())->create();
     $checkDeposit = $user->checkDeposits()->first();
 
     CheckDeposit::factory()->create();
 
-    actingAs($user)
+    actingAsApiUser($user)
         ->getJson(route('check-deposits.index'))
         ->assertOk()
         ->assertJsonCount(1, 'data')
@@ -33,7 +31,7 @@ test('admin can list all check deposits with user property', function () {
     $checkDeposit1 = CheckDeposit::factory()->create()->fresh();
     $checkDeposit2 = CheckDeposit::factory()->create()->fresh();
 
-    actingAs($user)
+    actingAsApiUser($user)
         ->getJson(route('check-deposits.index'))
         ->assertOk()
         ->assertJsonCount(2, 'data')
@@ -62,7 +60,7 @@ test('admin can list all check deposits with user property', function () {
 test('paginates 15 by page', function () {
     $user = User::factory()->has(CheckDeposit::factory()->count(16))->create();
 
-    actingAs($user)
+    actingAsApiUser($user)
         ->getJson(route('check-deposits.index'))
         ->assertOk()
         ->assertJsonCount(15, 'data')
@@ -71,7 +69,7 @@ test('paginates 15 by page', function () {
         ->assertJsonPath('meta.per_page', 15)
         ->assertJsonPath('meta.total', 16);
 
-    actingAs($user)
+    actingAsApiUser($user)
         ->getJson(route('check-deposits.index', ['page' => 2]))
         ->assertOk()
         ->assertJsonCount(1, 'data')
@@ -93,7 +91,7 @@ describe('filter', function () {
         it('can filter pending', function () {
             $filter = ['state' => Pending::class];
 
-            actingAs($this->user)
+            actingAsApiUser($this->user)
                 ->getJson(route('check-deposits.index', ['filter' => $filter]))
                 ->assertOk()
                 ->assertJsonCount(1, 'data')
@@ -104,7 +102,7 @@ describe('filter', function () {
         it('can filter accepted', function () {
             $filter = ['state' => Accepted::class];
 
-            actingAs($this->user)
+            actingAsApiUser($this->user)
                 ->getJson(route('check-deposits.index', ['filter' => $filter]))
                 ->assertOk()
                 ->assertJsonCount(1, 'data')
@@ -115,7 +113,7 @@ describe('filter', function () {
         it('can filter rejected', function () {
             $filter = ['state' => Rejected::class];
 
-            actingAs($this->user)
+            actingAsApiUser($this->user)
                 ->getJson(route('check-deposits.index', ['filter' => $filter]))
                 ->assertOk()
                 ->assertJsonCount(1, 'data')

@@ -4,7 +4,6 @@ use App\Models\BankAccount;
 use App\Models\Expense;
 use App\Models\User;
 
-use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
 
 test('user can create expense', function () {
@@ -17,7 +16,7 @@ test('user can create expense', function () {
         'bank_account_id' => $bankAccount->id,
     ];
 
-    $response = actingAs($user)
+    $response = actingAsApiUser($user)
         ->postJson(route('expenses.store'), $payload)
         ->assertCreated()
         ->assertJsonPath('data.description', 't-shirt')
@@ -52,7 +51,7 @@ test('cannot create expense for other bank account', function () {
         'bank_account_id' => $bankAccount->id,
     ];
 
-    actingAs($user)
+    actingAsApiUser($user)
         ->postJson(route('expenses.store'), $payload)
         ->assertForbidden()
         ->assertJsonPath('message', 'Insufficient funds');
@@ -68,7 +67,7 @@ test('cannot create expense if does not have enought money', function () {
         'bank_account_id' => $bankAccount->id,
     ];
 
-    actingAs($user)
+    actingAsApiUser($user)
         ->postJson(route('expenses.store'), $payload)
         ->assertUnprocessable()
         ->assertJsonValidationErrors([

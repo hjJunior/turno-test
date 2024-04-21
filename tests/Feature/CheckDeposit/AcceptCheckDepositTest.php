@@ -5,14 +5,13 @@ use App\Models\User;
 use App\States\CheckDepositStatus\Accepted;
 use App\States\CheckDepositStatus\Rejected;
 
-use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
 
 test('admin can accept a pending check deposit', function () {
     $user = User::factory()->admin()->create();
     $checkDeposit = CheckDeposit::factory()->create()->fresh();
 
-    actingAs($user)
+    actingAsApiUser($user)
         ->postJson(route('check-deposits.accept', $checkDeposit))
         ->assertNoContent();
 
@@ -39,7 +38,7 @@ test('cannot accept a rejected check deposit', function () {
     $user = User::factory()->admin()->create();
     $checkDeposit = CheckDeposit::factory()->rejected()->create();
 
-    actingAs($user)
+    actingAsApiUser($user)
         ->postJson(route('check-deposits.accept', $checkDeposit))
         ->assertForbidden()
         ->assertJsonPath('message', 'You cannot perform this operation');
