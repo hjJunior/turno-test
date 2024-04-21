@@ -5,6 +5,7 @@ use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\CheckDepositController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use PHPOpenSourceSaver\JWTAuth\Http\Middleware\RefreshToken;
 
@@ -27,6 +28,8 @@ Route::prefix('auth')
         Route::post('logout', 'logout')->name('logout');
         Route::get('me', 'me')->name('me');
     });
+
+Route::apiResource('users', UserController::class)->only('store');
 
 Route::middleware(['auth:api', RefreshToken::class])
     ->group(function () {
