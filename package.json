@@ -7,6 +7,8 @@
         "test": "vitest"
     },
     "devDependencies": {
+        "@iconify/json": "^2.2.202",
+        "@iconify/tailwind": "^0.1.4",
         "@testing-library/jest-dom": "^6.4.2",
         "@testing-library/user-event": "^14.5.2",
         "@testing-library/vue": "^8.0.3",
@@ -23,7 +25,9 @@
         "vitest-localstorage-mock": "^0.1.2"
     },
     "dependencies": {
+        "@tanstack/vue-query": "^5.31.0",
         "@vee-validate/zod": "^4.12.6",
+        "@vueuse/components": "^10.9.0",
         "@vueuse/core": "^10.9.0",
         "@vueuse/integrations": "^10.9.0",
         "flowbite": "^2.3.0",
@@ -31,6 +35,7 @@
         "universal-cookie": "^6",
         "vee-validate": "^4.12.6",
         "vue": "^3.4.23",
+        "vue-api-query": "^1.11.0",
         "vue-router": "^4.3.2",
         "vue-tsc": "^2.0.13",
         "zod": "^3.22.5"

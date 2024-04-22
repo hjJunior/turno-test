@@ -1,0 +1,14 @@
+{
+  "id": 21,
+  "description": "Check description 0832",
+  "amount": 11000,
+  "transactionable": {
+    "id": 1,
+    "state": "App\\States\\CheckDepositStatus\\Pending",
+    "description": "Check description 0832",
+    "amount": 11000,
+    "picture": "https://turno-hjjunior.s3.amazonaws.com/fake-picture.png"
+  },
+  "transactionable_type": "App\\Models\\CheckDeposit",
+  "created_at": "2024-04-22T16:40:59.000000Z"
+}

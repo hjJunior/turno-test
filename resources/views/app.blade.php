@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
 
 <head>
   <meta charset="utf-8">
@@ -10,8 +10,8 @@
   @vite(['resources/css/app.css', 'resources/ts/main.ts'])
 </head>
 
-<body class="bg-gray-50">
-  <div id="app"></div>
+<body class="h-full">
+  <div id="app" class="h-full"></div>
 </body>
 
 </html>

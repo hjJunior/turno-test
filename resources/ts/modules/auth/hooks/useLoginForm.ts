@@ -30,7 +30,7 @@ const useLoginForm = () => {
       setFormErrors(error, setErrors, "password");
     });
 
-    router.push({ name: "transactions.index" });
+    router.push({ name: "balance.index" });
   };
 
   return {

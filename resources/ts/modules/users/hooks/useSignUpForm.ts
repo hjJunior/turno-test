@@ -38,7 +38,7 @@ const useSignUpForm = () => {
       await registerBankAccount();
       await auth.login({ email: form.email, password: form.password });
 
-      router.push({ name: "transactions.index" });
+      router.push({ name: "balance.index" });
     } catch (error) {
       setFormErrors(error, setErrors, "password_confirmation");
     }

@@ -78,7 +78,7 @@ describe("UserRegistration", () => {
     await waitFor(() => expect(useAuth().login).toHaveBeenCalled());
     await waitFor(() =>
       expect(useRouter().push).toHaveBeenCalledWith({
-        name: "transactions.index",
+        name: "balance.index",
       })
     );
 
