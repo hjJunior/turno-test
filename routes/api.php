@@ -33,7 +33,6 @@ Route::apiResource('users', UserController::class)->only('store');
 
 Route::middleware(['auth:api', RefreshToken::class])
     ->group(function () {
-        Route::get('/user', fn () => auth()->user());
         Route::apiResource('bank-accounts', BankAccountController::class)->only('store');
         Route::apiResource('expenses', ExpenseController::class)->only('store');
         Route::apiResource('transactions', TransactionController::class)->only('index');

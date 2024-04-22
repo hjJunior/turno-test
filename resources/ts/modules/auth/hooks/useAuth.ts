@@ -13,7 +13,7 @@ const useAuth = () => {
     const { data } = await api.post("/api/auth/login", form);
 
     token.value = data.access_token;
-    onLogged(token.value);
+    await onLogged(token.value);
   };
 
   const logout = async () => {

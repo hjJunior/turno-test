@@ -18,7 +18,7 @@ export type UseCheckDepositsFilter = {
   page?: number;
 };
 
-const useCheckDepositsCacheKey = (filter?: UseCheckDepositsFilter) => [
+export const useCheckDepositsCacheKey = (filter?: UseCheckDepositsFilter) => [
   "check-deposits",
   filter,
 ];

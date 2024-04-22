@@ -26,11 +26,14 @@ const useLoginForm = () => {
   });
 
   const login = async (form: LoginForm) => {
-    await auth.login(form).catch((error: any) => {
-      setFormErrors(error, setErrors, "password");
-    });
-
-    router.push({ name: "balance.index" });
+    await auth
+      .login(form)
+      .then(() => {
+        router.push({ name: "balance.index" });
+      })
+      .catch((error: any) => {
+        setFormErrors(error, setErrors, "password");
+      });
   };
 
   return {

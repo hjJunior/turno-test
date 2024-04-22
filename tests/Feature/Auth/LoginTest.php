@@ -1,12 +1,13 @@
 <?php
 
+use App\Models\BankAccount;
 use App\Models\User;
 
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
 
 test('a user can login', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->has(BankAccount::factory())->create();
 
     $payload = [
         'email' => $user->email,
@@ -27,5 +28,6 @@ test('a user can login', function () {
     getJson(route('auth.me'), ['Authorization' => "Bearer $token"])
         ->assertOk()
         ->assertJsonPath('id', $user->id)
-        ->assertJsonPath('email', $user->email);
+        ->assertJsonPath('email', $user->email)
+        ->assertJsonPath('bank_account.id', $user->bankAccount->id);
 });

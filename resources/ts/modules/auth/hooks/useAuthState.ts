@@ -6,9 +6,9 @@ const useAuthState = () => {
   const token = useAuthToken();
   const { user, refreshUser } = useAuthUser();
 
-  const onLogged = (newToken: string) => {
+  const onLogged = async (newToken: string) => {
     token.value = newToken;
-    refreshUser();
+    await refreshUser();
   };
 
   const resetAuthState = () => {

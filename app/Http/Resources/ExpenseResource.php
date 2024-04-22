@@ -13,6 +13,7 @@ class ExpenseResource extends JsonResource
             'id' => $this->id,
             'description' => $this->description,
             'amount' => $this->getRawOriginal('amount'),
+            'created_at' => $this->created_at,
         ];
     }
 }

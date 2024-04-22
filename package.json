@@ -4,7 +4,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "test": "vitest"
+        "test": "TZ=UTC vitest"
     },
     "devDependencies": {
         "@iconify/json": "^2.2.202",

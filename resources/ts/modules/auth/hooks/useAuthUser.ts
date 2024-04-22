@@ -3,8 +3,19 @@ import api from "@/services/api";
 
 const STORAGE_USER_KEY = "auth_user";
 
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  is_admin: boolean;
+  username: string;
+  bank_account: {
+    id: string;
+  };
+};
+
 const useAuthUser = () => {
-  const user = useStorage(STORAGE_USER_KEY, null, localStorage, {
+  const user = useStorage<User>(STORAGE_USER_KEY, null, localStorage, {
     serializer: {
       read: (v: any) => (v ? JSON.parse(v) : null),
       write: (v: any) => JSON.stringify(v),
@@ -12,7 +23,7 @@ const useAuthUser = () => {
   });
 
   const refreshUser = async () => {
-    const { data } = await api.get("/api/user");
+    const { data } = await api.get("/api/auth/me");
     user.value = data;
   };
 

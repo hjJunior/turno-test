@@ -50,7 +50,7 @@ describe("Transactions", () => {
       );
 
       expect(screen.getByText("$110.00")).toBeTruthy();
-      expect(screen.getByText("04/22/2024 13:40")).toBeTruthy();
+      expect(screen.getByText("04/22/2024 16:40")).toBeTruthy();
     });
   });
 
@@ -67,7 +67,7 @@ describe("Transactions", () => {
       );
 
       expect(screen.getByText("$137.00")).toBeTruthy();
-      expect(screen.getByText("04/22/2024 13:37")).toBeTruthy();
+      expect(screen.getByText("04/22/2024 16:37")).toBeTruthy();
     });
   });
 });

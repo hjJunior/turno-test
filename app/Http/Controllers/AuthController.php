@@ -22,7 +22,9 @@ class AuthController extends Controller
 
     public function me()
     {
-        return response()->json(auth()->user());
+        $user = auth()->user()->load('bankAccount');
+
+        return response()->json($user);
     }
 
     public function logout()

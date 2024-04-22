@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { vInfiniteScroll } from "@vueuse/components";
-import { FwbHeading, FwbTab, FwbTabs, FwbTimeline } from "flowbite-vue";
+import {
+  FwbButton,
+  FwbHeading,
+  FwbTab,
+  FwbTabs,
+  FwbTimeline,
+} from "flowbite-vue";
 import CustomerLayout from "@/layouts/CustomerLayout.vue";
 import { computed, ref } from "vue";
 import useCheckDeposits, {
@@ -8,6 +14,9 @@ import useCheckDeposits, {
   UseCheckDepositsFilter,
 } from "../hooks/useCheckDeposits";
 import TransactionableRow from "../components/TransactionableRow.vue";
+import NewCheckDepositModal from "../components/NewCheckDepositModal.vue";
+
+const showNewCheckDepositModal = ref(false);
 
 const activeTab = ref<UseCheckDepositsFilter["state"]>(
   CheckDepositState.pending
@@ -50,6 +59,19 @@ const { checkDeposits, error, isFetchingNextPage, onLoadMore } =
           />
         </div>
       </div>
+    </div>
+    <NewCheckDepositModal v-model="showNewCheckDepositModal" />
+    <div class="fixed bottom-20 right-5 lg:bottom-5">
+      <FwbButton
+        pill
+        square
+        class="rounded-lg *:flex *:justify-center"
+        size="xl"
+        @click="showNewCheckDepositModal = true"
+        aria-label="Add new check deposit"
+      >
+        <span class="icon-[material-symbols--add] w-5 h-5" />
+      </FwbButton>
     </div>
   </CustomerLayout>
 </template>

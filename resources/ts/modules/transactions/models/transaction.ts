@@ -29,7 +29,7 @@ class Transaction extends BaseModel {
   }
 
   get dateFormated(): string {
-    return useDateFormat(this.created_at, "MM/DD/YYYY HH:mm").value;
+    return useDateFormat(new Date(this.created_at), "MM/DD/YYYY HH:mm").value;
   }
 
   getTransactionable(): Transactionable {
