@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\BankAccount;
 use App\Models\Transaction;
-use App\Models\User;
 use App\States\CheckDepositStatus\Accepted;
 use App\States\CheckDepositStatus\Pending;
 use App\States\CheckDepositStatus\Rejected;
@@ -21,7 +20,9 @@ class CheckDepositFactory extends Factory
             'description' => $this->faker->numerify('Check description ####'),
             'amount' => 100,
             'bank_account_id' => BankAccount::factory(),
-            'user_id' => User::factory(),
+            'user_id' => function ($attributes) {
+                return BankAccount::find($attributes['bank_account_id'])->user_id;
+            },
             'state' => Pending::class,
             'picture' => 'fake-picture.png',
         ];

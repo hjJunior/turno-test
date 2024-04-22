@@ -5,6 +5,7 @@ use App\Models\User;
 use App\States\CheckDepositStatus\Accepted;
 use App\States\CheckDepositStatus\Pending;
 use App\States\CheckDepositStatus\Rejected;
+use Illuminate\Support\Facades\Storage;
 
 test('customer can list your check deposits', function () {
     $user = User::factory()->has(CheckDeposit::factory())->create();

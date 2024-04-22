@@ -43,6 +43,14 @@ const TransactionsRoute: RouteRecordRaw[] = [
       guard: true,
     },
   },
+  {
+    path: "/check-deposits",
+    name: "check-deposits.index",
+    component: () => import("@transactions/pages/CheckDeposits.vue"),
+    meta: {
+      guard: true,
+    },
+  },
 ];
 
 export default TransactionsRoute;

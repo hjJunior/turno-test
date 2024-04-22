@@ -14,11 +14,11 @@ const useTransactionsCacheKey = (filter?: UseTransactionsFilter) => [
   filter,
 ];
 
-const getTransactions = async ({
+const getTransactions = ({
   type,
   page = 1,
 }: UseTransactionsFilter): Promise<Transaction[]> => {
-  return await Transaction.page(page)
+  return Transaction.page(page)
     .when(type !== "all", (query) => query.where("type", type))
     .$get();
 };

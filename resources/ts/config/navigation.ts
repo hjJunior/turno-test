@@ -25,7 +25,7 @@ const NavigationItems = Object.freeze<NavigationItem[]>([
   {
     label: "Checks",
     icon: "icon-[la--money-check-alt]",
-    to: router.resolve({ name: "auth.login" }).fullPath,
+    to: router.resolve({ name: "check-deposits.index" }).fullPath,
   },
 ]);
 

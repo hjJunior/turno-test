@@ -8,7 +8,7 @@ export type TransactionableType =
   | "App\\Models\\Expense"
   | "App\\Models\\CheckDeposit";
 
-export type Transactionable = CheckDeposit;
+export type Transactionable = CheckDeposit | Expense;
 
 interface Transaction {
   id: string;
