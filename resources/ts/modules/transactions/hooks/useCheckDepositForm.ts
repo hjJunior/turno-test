@@ -51,7 +51,7 @@ const useCheckDepositForm = (onCompleted: () => void) => {
   });
 
   const submitCheckDeposit = async (values: CheckDepositForm) => {
-    const bankAccountId = user.value.bank_account.id;
+    const bankAccountId = user.value!.bank_account.id;
 
     try {
       await api.post(

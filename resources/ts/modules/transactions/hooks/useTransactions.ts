@@ -9,7 +9,7 @@ export type UseTransactionsFilter = {
   page?: number;
 };
 
-const useTransactionsCacheKey = (filter?: UseTransactionsFilter) => [
+export const useTransactionsCacheKey = (filter?: UseTransactionsFilter) => [
   "transactions",
   filter,
 ];

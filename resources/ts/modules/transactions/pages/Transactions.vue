@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import { vInfiniteScroll } from "@vueuse/components";
-import { FwbHeading, FwbTimeline } from "flowbite-vue";
+import { FwbButton, FwbHeading, FwbTimeline } from "flowbite-vue";
 import TransactionRow from "../components/TransactionRow.vue";
 import CustomerLayout from "@/layouts/CustomerLayout.vue";
 import useTransactions, {
   UseTransactionsFilter,
 } from "../hooks/useTransactions";
-import { computed } from "vue";
+import { computed, ref } from "vue";
+import NewExpenseModal from "../components/NewExpenseModal.vue";
 
 const props = defineProps<{
   filter: UseTransactionsFilter;
   title: string;
 }>();
+
+const showNewExpenseModal = ref(false);
 
 const { transactions, error, isFetchingNextPage, onLoadMore } = useTransactions(
   computed(() => props.filter)
@@ -43,6 +46,22 @@ const { transactions, error, isFetchingNextPage, onLoadMore } = useTransactions(
           />
         </div>
       </div>
+    </div>
+    <NewExpenseModal v-model="showNewExpenseModal" />
+    <div class="fixed bottom-20 right-5 lg:bottom-5">
+      <FwbButton
+        pill
+        square
+        class="rounded-lg"
+        size="xl"
+        aria-label="New expense"
+        @click="showNewExpenseModal = true"
+      >
+        <div class="flex items-center justify-center gap-1">
+          <span class="icon-[material-symbols--add] w-5 h-5" />
+          <span>New Expense</span>
+        </div>
+      </FwbButton>
     </div>
   </CustomerLayout>
 </template>
