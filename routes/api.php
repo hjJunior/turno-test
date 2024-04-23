@@ -20,6 +20,10 @@ use PHPOpenSourceSaver\JWTAuth\Http\Middleware\RefreshToken;
 |
 */
 
+Route::get('/debug-sentry', function () {
+    throw new Exception('My first Sentry error!');
+});
+
 Route::prefix('auth')
     ->name('auth.')
     ->controller(AuthController::class)
