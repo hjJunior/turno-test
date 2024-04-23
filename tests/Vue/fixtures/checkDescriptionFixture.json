@@ -10,6 +10,12 @@
     "picture": "https://turno-hjjunior.s3.amazonaws.com/fake-picture.png",
     "created_at": "2024-04-22T16:40:59.000000Z"
   },
+  "user": {
+    "id": 123,
+    "name": "Federico Kessler III",
+    "username": "lera74",
+    "email": "xfeest@example.com"
+  },
   "transactionable_type": "App\\Models\\CheckDeposit",
   "created_at": "2024-04-22T16:40:59.000000Z"
 }

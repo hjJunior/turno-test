@@ -4,12 +4,15 @@ use App\Models\BankAccount;
 use App\Models\User;
 use App\States\CheckDepositStatus\Pending;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\freezeSecond;
 use function Pest\Laravel\postJson;
 
 test('a user can create a check deposit to its account', function () {
+    freezeSecond();
     Storage::fake();
 
     $user = User::factory()->has(BankAccount::factory())->create();
@@ -29,7 +32,7 @@ test('a user can create a check deposit to its account', function () {
         ->assertJsonPath('data.state', Pending::class)
         ->assertJsonPath('data.description', "Grandma's gift")
         ->assertJsonPath('data.amount', 1050)
-        ->assertJsonPath('data.picture', Storage::url("check-deposits/{$picture->hashName()}"));
+        ->assertJsonPath('data.picture', Storage::temporaryUrl("check-deposits/{$picture->hashName()}", now()->addHour()));
 
     assertDatabaseHas('check_deposits', [
         'description' => "Grandma's gift",
@@ -44,6 +47,7 @@ test('a user can create a check deposit to its account', function () {
 });
 
 test('a user can create a check deposit to another bank account', function () {
+    freezeSecond();
     Storage::fake();
 
     $user = User::factory()->create();
@@ -64,7 +68,7 @@ test('a user can create a check deposit to another bank account', function () {
         ->assertJsonPath('data.state', Pending::class)
         ->assertJsonPath('data.description', "Grandma's gift")
         ->assertJsonPath('data.amount', 1050)
-        ->assertJsonPath('data.picture', Storage::url("check-deposits/{$picture->hashName()}"));
+        ->assertJsonPath('data.picture', Storage::temporaryUrl("check-deposits/{$picture->hashName()}", now()->addHour()));
 
     assertDatabaseHas('check_deposits', [
         'description' => "Grandma's gift",

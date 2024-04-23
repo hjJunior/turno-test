@@ -13,6 +13,7 @@ const TransactionsRoute: RouteRecordRaw[] = [
     },
     meta: {
       guard: true,
+      onlyCustomers: true,
     },
   },
   {
@@ -27,6 +28,7 @@ const TransactionsRoute: RouteRecordRaw[] = [
     },
     meta: {
       guard: true,
+      onlyCustomers: true,
     },
   },
   {
@@ -41,6 +43,7 @@ const TransactionsRoute: RouteRecordRaw[] = [
     },
     meta: {
       guard: true,
+      onlyCustomers: true,
     },
   },
   {
@@ -49,6 +52,7 @@ const TransactionsRoute: RouteRecordRaw[] = [
     component: () => import("@transactions/pages/CheckDeposits.vue"),
     meta: {
       guard: true,
+      onlyCustomers: true,
     },
   },
 ];

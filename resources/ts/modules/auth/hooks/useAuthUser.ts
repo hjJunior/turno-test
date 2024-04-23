@@ -15,7 +15,7 @@ type User = {
 };
 
 const useAuthUser = () => {
-  const user = useStorage<User>(STORAGE_USER_KEY, null, localStorage, {
+  const user = useStorage<User | null>(STORAGE_USER_KEY, null, localStorage, {
     serializer: {
       read: (v: any) => (v ? JSON.parse(v) : null),
       write: (v: any) => JSON.stringify(v),

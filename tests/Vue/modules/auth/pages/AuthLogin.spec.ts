@@ -7,6 +7,7 @@ import useAuth from "@/modules/auth/hooks/useAuth";
 import { waitFor } from "@testing-library/dom";
 import { useRouter } from "vue-router";
 import router from "@/router";
+import { ref } from "vue";
 
 vi.mock("@/modules/auth/hooks/useAuth");
 vi.mock("vue-router", async () => ({
@@ -35,6 +36,7 @@ describe("AuthLogin", () => {
   beforeEach(() => {
     (useAuth as Mock).mockReturnValue({
       login: vi.fn().mockResolvedValue({}),
+      user: ref({}),
     });
     (useRouter as Mock).mockReturnValue({ push: vi.fn() });
   });

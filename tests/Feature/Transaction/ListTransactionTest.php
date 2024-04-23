@@ -6,6 +6,7 @@ use App\Models\Expense;
 use App\Models\Transaction;
 use App\Models\User;
 use App\States\CheckDepositStatus\Pending;
+use Illuminate\Support\Facades\Storage;
 
 use function Pest\Laravel\freezeSecond;
 
@@ -30,7 +31,7 @@ test('customer can list your transactions', function () {
         ->assertJsonPath('data.0.transactionable.state', Pending::class)
         ->assertJsonPath('data.0.transactionable.description', $checkDeposit->description)
         ->assertJsonPath('data.0.transactionable.amount', $checkDeposit->getRawOriginal('amount'))
-        ->assertJsonPath('data.0.transactionable.picture', Storage::url($checkDeposit->picture))
+        ->assertJsonPath('data.0.transactionable.picture', Storage::temporaryUrl($checkDeposit->picture, now()->addHour()))
         // second
         ->assertJsonPath('data.1.created_at', now()->toISOString())
         ->assertJsonPath('data.1.transactionable.id', $expense->id)

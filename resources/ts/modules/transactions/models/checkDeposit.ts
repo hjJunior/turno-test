@@ -1,5 +1,6 @@
 import useAmountFormat from "@/hooks/useAmountFormat";
 import BaseModel from "@/models/baseModel";
+import api from "@/services/api";
 import { useDateFormat } from "@vueuse/core";
 
 interface CheckDeposit {
@@ -7,11 +8,25 @@ interface CheckDeposit {
   amount: number;
   created_at: string;
   description: string;
+  picture: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+  };
 }
 
 class CheckDeposit extends BaseModel {
   resource() {
     return "check-deposits";
+  }
+
+  async reject() {
+    return api.post(`/api/check-deposits/${this.id}/reject`);
+  }
+
+  async accept() {
+    return api.post(`/api/check-deposits/${this.id}/accept`);
   }
 
   get amountFormated(): string {

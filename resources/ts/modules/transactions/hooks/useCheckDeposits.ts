@@ -14,7 +14,7 @@ export const CheckDepositState: Record<string, StateFilter> = {
 };
 
 export type UseCheckDepositsFilter = {
-  state: StateFilter;
+  state?: StateFilter;
   page?: number;
 };
 
@@ -27,11 +27,15 @@ const getCheckDeposits = ({
   state,
   page = 1,
 }: UseCheckDepositsFilter): Promise<CheckDeposit[]> => {
-  return CheckDeposit.page(page).where("state", state).$get();
+  return CheckDeposit.page(page)
+    .when(!!state, (q) => q.where("state", state!))
+    .$get();
 };
 
-const useCheckDeposits = (filter: MaybeRef<UseCheckDepositsFilter>) => {
-  const queryKey = computed(() => useCheckDepositsCacheKey(toValue(filter)));
+const useCheckDeposits = (filter?: MaybeRef<UseCheckDepositsFilter>) => {
+  const queryKey = computed(() =>
+    useCheckDepositsCacheKey(toValue(filter) ?? {})
+  );
 
   const { all: checkDeposits, ...rest } = useApiInfiniteQuery({
     queryKey,

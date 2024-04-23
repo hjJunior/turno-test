@@ -7,7 +7,10 @@ use App\States\CheckDepositStatus\Pending;
 use App\States\CheckDepositStatus\Rejected;
 use Illuminate\Support\Facades\Storage;
 
+use function Pest\Laravel\freezeSecond;
+
 test('customer can list your check deposits', function () {
+    freezeSecond();
     $user = User::factory()->has(CheckDeposit::factory())->create();
     $checkDeposit = $user->checkDeposits()->first();
 
@@ -22,10 +25,11 @@ test('customer can list your check deposits', function () {
         ->assertJsonPath('data.0.state', Pending::class)
         ->assertJsonPath('data.0.description', $checkDeposit->description)
         ->assertJsonPath('data.0.amount', $checkDeposit->getRawOriginal('amount'))
-        ->assertJsonPath('data.0.picture', Storage::url($checkDeposit->picture));
+        ->assertJsonPath('data.0.picture', Storage::temporaryUrl($checkDeposit->picture, now()->addHour()));
 });
 
 test('admin can list all check deposits with user property', function () {
+    freezeSecond();
     $user = User::factory()->admin()->create();
     // todo: maybe a bug on laravel factories?
     // without 'fresh', the getRawOriginal returns the casted value instead of database value
@@ -41,7 +45,7 @@ test('admin can list all check deposits with user property', function () {
         ->assertJsonPath('data.0.state', Pending::class)
         ->assertJsonPath('data.0.description', $checkDeposit1->description)
         ->assertJsonPath('data.0.amount', $checkDeposit1->getRawOriginal('amount'))
-        ->assertJsonPath('data.0.picture', Storage::url($checkDeposit1->picture))
+        ->assertJsonPath('data.0.picture', Storage::temporaryUrl($checkDeposit1->picture, now()->addHour()))
         ->assertJsonPath('data.0.user.id', $checkDeposit1->user->id)
         ->assertJsonPath('data.0.user.name', $checkDeposit1->user->name)
         ->assertJsonPath('data.0.user.email', $checkDeposit1->user->email)
@@ -51,7 +55,7 @@ test('admin can list all check deposits with user property', function () {
         ->assertJsonPath('data.1.state', Pending::class)
         ->assertJsonPath('data.1.description', $checkDeposit2->description)
         ->assertJsonPath('data.1.amount', $checkDeposit2->getRawOriginal('amount'))
-        ->assertJsonPath('data.1.picture', Storage::url($checkDeposit2->picture))
+        ->assertJsonPath('data.1.picture', Storage::temporaryUrl($checkDeposit2->picture, now()->addHour()))
         ->assertJsonPath('data.1.user.id', $checkDeposit2->user->id)
         ->assertJsonPath('data.1.user.name', $checkDeposit2->user->name)
         ->assertJsonPath('data.1.user.email', $checkDeposit2->user->email)

@@ -22,7 +22,8 @@
       "@/*": ["./*"],
       "@auth/*": ["./modules/auth/*"],
       "@transactions/*": ["./modules/transactions/*"],
-      "@users/*": ["./modules/users/*"]
+      "@users/*": ["./modules/users/*"],
+      "@admins/*": ["./modules/admins/*"]
     }
   }
 }

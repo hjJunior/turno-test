@@ -1,4 +1,5 @@
-import useAuthState from "@/modules/auth/hooks/useAuthState";
+import AdminsRoute from "@/modules/admins/routes";
+import useAuthUser from "@/modules/auth/hooks/useAuthUser";
 import AuthRoutes from "@/modules/auth/routes";
 import TransactionsRoute from "@/modules/transactions/routes";
 import UsersRoute from "@/modules/users/routes";
@@ -6,18 +7,37 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: [...AuthRoutes, ...TransactionsRoute, ...UsersRoute],
+  routes: [
+    ...AuthRoutes,
+    ...TransactionsRoute,
+    ...UsersRoute,
+    ...AdminsRoute,
+    {
+      path: "/",
+      redirect: "/auth/login",
+    },
+  ],
 });
 
 router.beforeEach(async (to, from) => {
-  const { isAuthenticated } = useAuthState();
-  const requiresLogin = to.meta.guard;
+  const { user } = useAuthUser();
+  const isAuthenticated = user.value !== null;
+
+  const { is_admin: isAdmin } = user.value ?? {};
+  const { guard: requiresLogin, onlyCustomers, onlyAdmins } = to.meta;
 
   if (!requiresLogin) return;
 
-  if (!isAuthenticated.value && to.name !== "auth.login") {
-    // redirect the user to the login page
+  if (!isAuthenticated && to.name !== "auth.login") {
     return { name: "auth.login" };
+  }
+
+  if (onlyCustomers && isAdmin) {
+    return { name: "admin.check-deposits.index" };
+  }
+
+  if (onlyAdmins && !isAdmin) {
+    return { name: "balance.index" };
   }
 });
 

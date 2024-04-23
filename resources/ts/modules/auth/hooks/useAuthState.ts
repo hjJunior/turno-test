@@ -1,4 +1,4 @@
-import { computed, onMounted } from "vue";
+import { computed } from "vue";
 import useAuthToken from "./useAuthToken";
 import useAuthUser from "./useAuthUser";
 
@@ -17,11 +17,6 @@ const useAuthState = () => {
   };
 
   const isAuthenticated = computed(() => !!token.value);
-
-  onMounted(async () => {
-    if (!token.value) return;
-    await refreshUser().catch(resetAuthState);
-  });
 
   return {
     user,

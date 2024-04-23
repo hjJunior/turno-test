@@ -25,6 +25,8 @@ const { onSubmit, isSubmitting } = useLoginForm();
               label="E-mail"
               aria-label="E-mail"
               placeholder="Eg. your@mail.com"
+              type="email"
+              autocomplete="email"
               :validation-status="errorMessage ? 'error' : undefined"
             >
               <template #validationMessage>
@@ -39,6 +41,7 @@ const { onSubmit, isSubmitting } = useLoginForm();
               label="Password"
               aria-label="Password"
               placeholder="****"
+              autocomplete="current-password"
               :validation-status="errorMessage ? 'error' : undefined"
             >
               <template #validationMessage>

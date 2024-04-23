@@ -29,7 +29,12 @@ const useLoginForm = () => {
     await auth
       .login(form)
       .then(() => {
-        router.push({ name: "balance.index" });
+        const { is_admin: isAdmin } = auth.user.value ?? {};
+        const route = isAdmin
+          ? { name: "admin.check-deposits.index" }
+          : { name: "balance.index" };
+
+        router.push(route);
       })
       .catch((error: any) => {
         setFormErrors(error, setErrors, "password");
