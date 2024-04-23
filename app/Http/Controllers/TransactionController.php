@@ -18,6 +18,7 @@ class TransactionController extends Controller
             ->allowedFilters([
                 AllowedFilter::exact('type', 'transactionable_type'),
             ])
+            ->orderByDesc('created_at')
             ->with('transactionable')
             ->paginate()
             ->withQueryString();

@@ -19,6 +19,7 @@ class CheckDepositController extends Controller
         $checkDeposits = QueryBuilder::for($query)
             ->allowedFilters(['state'])
             ->when($user->is_admin, fn ($q) => $q->with('user'))
+            ->orderByDesc('created_at')
             ->paginate()
             ->withQueryString();
 
