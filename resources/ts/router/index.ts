@@ -16,6 +16,10 @@ const router = createRouter({
       path: "/",
       redirect: "/auth/login",
     },
+    {
+      path: "/:pathMatch(.*)*",
+      component: () => import("@/pages/NotFound.vue"),
+    },
   ],
 });
 
