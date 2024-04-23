@@ -27,7 +27,8 @@ test('a user can login', function () {
 
     getJson(route('auth.me'), ['Authorization' => "Bearer $token"])
         ->assertOk()
-        ->assertJsonPath('id', $user->id)
-        ->assertJsonPath('email', $user->email)
-        ->assertJsonPath('bank_account.id', $user->bankAccount->id);
+        ->assertJsonPath('data.id', $user->id)
+        ->assertJsonPath('data.email', $user->email)
+        ->assertJsonPath('data.bank_account.id', $user->bankAccount->id)
+        ->assertJsonPath('data.bank_account.balance', $user->bankAccount->getRawOriginal('balance'));
 });

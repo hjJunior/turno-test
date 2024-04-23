@@ -14,6 +14,8 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'username' => $this->username,
             'email' => $this->email,
+            'is_admin' => $this->is_admin,
+            'bank_account' => new BankAccountResource($this->whenLoaded('bankAccount')),
         ];
     }
 }

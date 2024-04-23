@@ -20,13 +20,17 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from) => {
-  const { user } = useAuthUser();
+  const { user, refreshUser } = useAuthUser();
   const isAuthenticated = user.value !== null;
-
-  const { is_admin: isAdmin } = user.value ?? {};
   const { guard: requiresLogin, onlyCustomers, onlyAdmins } = to.meta;
 
   if (!requiresLogin) return;
+
+  if (isAuthenticated) {
+    await refreshUser();
+  }
+
+  const { is_admin: isAdmin } = user.value!;
 
   if (!isAuthenticated && to.name !== "auth.login") {
     return { name: "auth.login" };

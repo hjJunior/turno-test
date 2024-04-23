@@ -35,8 +35,8 @@ const useSignUpForm = () => {
   const signUp = async (form: SignUpForm) => {
     try {
       await registerUser(form);
-      await registerBankAccount();
       await auth.login({ email: form.email, password: form.password });
+      await registerBankAccount();
 
       router.push({ name: "balance.index" });
     } catch (error) {

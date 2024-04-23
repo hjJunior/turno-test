@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import useAuthToken from "../modules/auth/hooks/useAuthToken";
 import router from "@/router";
-import useAuthState from "@/modules/auth/hooks/useAuthState";
 
 const NOT_AUTHORIZED = 401;
 
@@ -40,11 +39,11 @@ api.interceptors.response.use(
       tokenUpdater(response);
 
       if (response.status == NOT_AUTHORIZED) {
-        useAuthState().resetAuthState();
+        useAuthToken().value = null;
         router.replace({ name: "auth.login" });
       }
     }
-    return error;
+    throw error;
   }
 );
 

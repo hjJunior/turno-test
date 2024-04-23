@@ -3,9 +3,8 @@ import { useForm } from "vee-validate";
 import * as zod from "zod";
 import { setFormErrors } from "@/services/forms";
 import api from "@/services/api";
-import { useQueryClient } from "@tanstack/vue-query";
-import { useTransactionsCacheKey } from "./useTransactions";
 import useAuth from "@/modules/auth/hooks/useAuth";
+import useRefreshTransactions from "./useRefreshTransactions";
 
 const formSchema = zod.object({
   description: zod
@@ -27,14 +26,10 @@ const validationSchema = toTypedSchema(formSchema);
 export type ExpenseForm = zod.infer<typeof formSchema>;
 
 const useExpenseForm = (onCompleted: () => void) => {
-  const queryClient = useQueryClient();
+  const refreshTransactions = useRefreshTransactions();
   const { user } = useAuth();
   const { isSubmitting, handleSubmit, setErrors } = useForm({
     validationSchema,
-  });
-
-  const cacheDepositCacheKey = useTransactionsCacheKey({
-    type: "App\\Models\\Expense",
   });
 
   const submitCheckDeposit = async (values: ExpenseForm) => {
@@ -42,7 +37,7 @@ const useExpenseForm = (onCompleted: () => void) => {
       const bank_account_id = user.value!.bank_account.id;
 
       await api.post("/api/expenses", { ...values, bank_account_id });
-      await queryClient.invalidateQueries({ queryKey: cacheDepositCacheKey });
+      await refreshTransactions();
 
       onCompleted();
     } catch (e) {

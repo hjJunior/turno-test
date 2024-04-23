@@ -8,6 +8,7 @@ test('a authenticated user can fetch your profile details', function () {
     actingAsApiUser($user)
         ->getJson(route('auth.me'))
         ->assertOk()
-        ->assertJsonPath('id', $user->id)
-        ->assertJsonPath('email', $user->email);
+        ->assertJsonPath('data.id', $user->id)
+        ->assertJsonPath('data.email', $user->email)
+        ->assertJsonPath('data.bank_account', null);
 });

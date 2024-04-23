@@ -23,8 +23,8 @@ const useAuthUser = () => {
   });
 
   const refreshUser = async () => {
-    const { data } = await api.get("/api/auth/me");
-    user.value = data;
+    const { data: apiResponse } = await api.get("/api/auth/me");
+    user.value = apiResponse.data;
   };
 
   return { user, refreshUser };

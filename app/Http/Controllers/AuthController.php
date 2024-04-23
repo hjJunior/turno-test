@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
+
 class AuthController extends Controller
 {
     public function __construct()
@@ -24,7 +26,7 @@ class AuthController extends Controller
     {
         $user = auth()->user()->load('bankAccount');
 
-        return response()->json($user);
+        return new UserResource($user);
     }
 
     public function logout()
