@@ -25,7 +25,8 @@
         "vitest-localstorage-mock": "^0.1.2"
     },
     "dependencies": {
-        "@sentry/vue": "^7.40.0",
+        "@sentry/vite-plugin": "^2.16.1",
+        "@sentry/vue": "^7.112.1",
         "@tanstack/vue-query": "^5.31.0",
         "@vee-validate/zod": "^4.12.6",
         "@vueuse/components": "^10.9.0",

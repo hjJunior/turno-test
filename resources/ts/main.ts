@@ -6,10 +6,17 @@ import { Model } from "vue-api-query";
 import router from "./router";
 import api from "./services/api";
 
-Sentry.init({
-  dsn: import.meta.env.VITE_SENTRY_DSN_PUBLIC,
-});
-
 Model.$http = api;
 
-createApp(App).use(router).use(VueQueryPlugin).mount("#app");
+const app = createApp(App).use(router).use(VueQueryPlugin);
+
+Sentry.init({
+  app,
+  dsn: import.meta.env.VITE_SENTRY_DSN_PUBLIC,
+  integrations: [
+    Sentry.browserTracingIntegration({ router }),
+    Sentry.replayIntegration(),
+  ],
+});
+
+app.mount("#app");

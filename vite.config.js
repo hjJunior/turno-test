@@ -1,5 +1,6 @@
 /// <reference types="vitest" />
 import { defineConfig } from "vite";
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import laravel from "laravel-vite-plugin";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
@@ -9,14 +10,18 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./resources/ts"),
       "@auth": path.resolve(__dirname, "./resources/ts/modules/auth"),
-      "@transactions": path.resolve(__dirname, "./resources/ts/modules/transactions"),
+      "@transactions": path.resolve(
+        __dirname,
+        "./resources/ts/modules/transactions"
+      ),
       "@users": path.resolve(__dirname, "./resources/ts/modules/users"),
       "@admins": path.resolve(__dirname, "./resources/ts/modules/admins"),
     },
   },
+
   plugins: [
     laravel({
-      input: ["resources/css/app.css", "resources/js/app.js"],
+      input: ["resources/css/app.css", "resources/ts/main.ts"],
       refresh: true,
     }),
     vue({
@@ -37,10 +42,17 @@ export default defineConfig({
         },
       },
     }),
+    sentryVitePlugin({
+      org: "coderfox",
+      project: "turno",
+    }),
   ],
   test: {
     globals: true,
-    environment: 'jsdom',
-    setupFiles: ['tests/Vue/setup.ts']
-  }
+    environment: "jsdom",
+    setupFiles: ["tests/Vue/setup.ts"],
+  },
+  build: {
+    sourcemap: true,
+  },
 });
